@@ -4,5 +4,5 @@ defmodule RethinkdbGraphqlRethinkdb.PostResolver do
 
   def all(_args, _info) do
     {:ok, Repo.all(Post)}
-  end 
+  end
 end

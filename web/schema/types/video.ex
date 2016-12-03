@@ -9,6 +9,7 @@ use Absinthe.Ecto, repo: RethinkdbGraphqlRethinkdb.Repo
     field :published, :boolean
     field :created_at, :string
     field :description, :string
+    field :view_count, :integer
     field :user, :user, resolve: assoc(:user)
     field :likes, list_of(:like), resolve: assoc(:likes)
     field :comments, list_of(:comment), resolve: assoc(:comments)

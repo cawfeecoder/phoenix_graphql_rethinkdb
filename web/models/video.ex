@@ -6,6 +6,7 @@ defmodule RethinkdbGraphqlRethinkdb.Video do
     field :url, :string
     field :description, :string
     field :created_at, :string
+    field :view_count, :integer
     field :published, :boolean, default: false
     belongs_to :user, RethinkdbGraphqlRethinkdb.User
     has_many :comments, RethinkdbGraphqlRethinkdb.Comment
