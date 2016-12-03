@@ -1,14 +1,15 @@
-defmodule RethinkdbGraphqlRethinkdb.Post do
+defmodule RethinkdbGraphqlRethinkdb.Video do
   use RethinkdbGraphqlRethinkdb.Web, :model
 
-  schema "posts" do
+  schema "videos" do
     field :title, :string
-    field :body, :string
-    field :published, :boolean, default: false
+    field :url, :string
+    field :description, :string
     field :created_at, :string
+    field :published, :boolean, default: false
     belongs_to :user, RethinkdbGraphqlRethinkdb.User
-    has_many :likes, RethinkdbGraphqlRethinkdb.Like
     has_many :comments, RethinkdbGraphqlRethinkdb.Comment
+    has_many :likes, RethinkdbGraphqlRethinkdb.Like
 
     timestamps()
   end
@@ -18,7 +19,7 @@ defmodule RethinkdbGraphqlRethinkdb.Post do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :body, :published])
-    |> validate_required([:title, :body, :published])
+    |> cast(params, [:title, :url, :description, :published])
+    |> validate_required([:title, :url, :description, :published])
   end
 end

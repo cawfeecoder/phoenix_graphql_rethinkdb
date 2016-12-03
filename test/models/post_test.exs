@@ -3,7 +3,7 @@ defmodule RethinkdbGraphqlRethinkdb.PostTest do
 
   alias RethinkdbGraphqlRethinkdb.Post
 
-  @valid_attrs %{body: "some content", title: "some content"}
+  @valid_attrs %{body: "some content", published: true, title: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

@@ -3,8 +3,11 @@ defmodule RethinkdbGraphqlRethinkdb.Repo.Migrations.CreateUser do
 
   def change do
     create table(:users) do
-      add :name, :string
+      add :first_name, :string
+      add :last_name, :string
+      add :username, :string
       add :email, :string
+      add :password, :string
 
       timestamps()
     end

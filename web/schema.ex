@@ -1,19 +1,41 @@
 defmodule RethinkdbGraphqlRethinkdb.Schema do
   use Absinthe.Schema
-  import_types RethinkdbGraphqlRethinkdb.Schema.Types
+  import_types RethinkdbGraphqlRethinkdb.Types.User
+  import_types RethinkdbGraphqlRethinkdb.Types.Post
+  import_types RethinkdbGraphqlRethinkdb.Types.Comment
+  import_types RethinkdbGraphqlRethinkdb.Types.Like
+  import_types RethinkdbGraphqlRethinkdb.Types.Video
 
   query do
-    field :posts, list_of(:post) do
+    field :find_all_posts, list_of(:post) do
       resolve &RethinkdbGraphqlRethinkdb.PostResolver.all/2
     end
 
-    field :users, list_of(:user) do
+    field :find_all_users, list_of(:user) do
       resolve &RethinkdbGraphqlRethinkdb.UserResolver.all/2
     end
 
-    field :user, type: :user do
+    field :find_user_by_id, type: :user do
       arg :id, non_null(:id)
-      resolve &RethinkdbGraphqlRethinkdb.UserResolver.find/2
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByID/2
+    end
+
+    field :find_user_by_email, type: :user do
+      arg :email, non_null(:string)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByEmail/2
+    end
+  end
+
+  mutation do
+    field :delete_user, type: :user do
+      arg :id, non_null(:id)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.delete/2
+    end
+    field :create_user, type: :user do
+      arg :name, non_null(:string)
+      arg :email, non_null(:string)
+      arg :password, non_null(:string)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.create/2
     end
   end
 end
