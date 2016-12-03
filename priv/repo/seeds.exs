@@ -2,11 +2,12 @@ alias RethinkdbGraphqlRethinkdb.User
 alias RethinkdbGraphqlRethinkdb.Post
 alias RethinkdbGraphqlRethinkdb.Comment
 alias RethinkdbGraphqlRethinkdb.Like
+alias RethinkdbGraphqlRethinkdb.Video
 alias RethinkdbGraphqlRethinkdb.Repo
 import Ecto.Query
 
-Repo.insert!(%User{first_name: "Ryan", last_name: "Swapp", username: "rswapp", email: "ryan@ryan.com", password: "abc123efg"})
-Repo.insert!(%User{first_name: "Rosie", last_name: "O'Donnell", username: "RosieD", email: "rosie@mydog.com", password: "456hij789"})
+Repo.insert!(%User{first_name: "Ryan", last_name: "Swapp", username: "rswapp", email: "ryan@ryan.com", password: "abc123efg", role: "user"})
+Repo.insert!(%User{first_name: "Rosie", last_name: "O'Donnell", username: "RosieD", email: "rosie@mydog.com", password: "456hij789", role: "admin"})
 
 user1 = Repo.get_by(User, email: "ryan@ryan.com")
 user2 = Repo.get_by(User, email: "rosie@mydog.com")
@@ -23,13 +24,27 @@ end
 
 posts = Repo.all(from p in Post, select: p.id)
 
+for _ <- 1..2 do
+  Repo.insert!(%Video{
+    title: Faker.Lorem.sentence,
+    url: "http://www,youtube.com/",
+    description: Faker.Lorem.paragraph,
+    created_at: "1-2-16",
+    view_count: :rand.uniform(1000),
+    published: false
+    })
+end
+
+videos = Repo.all(from v in Video, select: v.id)
+
 for _ <- 1..50 do
   Repo.insert!(%Comment{
     created_at: "1-2-16",
     title: Faker.Lorem.sentence,
     body: Faker.Lorem.paragraph,
     post_id: posts |> Enum.take_random(1) |> hd,
-    user_id: [user1.id, user2.id] |> Enum.take_random(1) |> hd
+    user_id: [user1.id, user2.id] |> Enum.take_random(1) |> hd,
+    video_id: videos |> Enum.take_random(1) |> hd
     })
 end
 
@@ -38,6 +53,7 @@ for _ <- 1..100 do
     created_at: "1-2-16",
     value: 1,
     post_id: posts |> Enum.take_random(1) |> hd,
-    user_id: [user1.id, user2.id] |> Enum.take_random(1) |> hd
+    user_id: [user1.id, user2.id] |> Enum.take_random(1) |> hd,
+    video_id: videos |> Enum.take_random(1) |> hd
     })
 end

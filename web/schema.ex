@@ -12,9 +12,35 @@ defmodule RethinkdbGraphqlRethinkdb.Schema do
       resolve &RethinkdbGraphqlRethinkdb.PostResolver.all/2
     end
 
+    #User Related Queries
+
     @desc "Find All Users"
     field :find_all_users, list_of(:user) do
       resolve &RethinkdbGraphqlRethinkdb.UserResolver.all/2
+    end
+
+    @desc "Find User By ID"
+    field :find_user_by_id, type: :user do
+      arg :id, non_null(:id)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByID/2
+    end
+
+    @desc "Find User By Email"
+    field :find_user_by_email, type: :user do
+      arg :email, non_null(:string)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByEmail/2
+    end
+
+    @desc "Find User By Username"
+    field :find_user_by_username, type: :user do
+      arg :username, non_null(:string)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByUsername/2
+    end
+
+    @desc "Find Users By Role"
+    field :find_users_by_role, list_of(:user) do
+      arg :role, non_null(:string)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByRole/2
     end
 
     @desc "Find All Videos"
@@ -30,18 +56,6 @@ defmodule RethinkdbGraphqlRethinkdb.Schema do
     @desc "Find All Likes"
     field :find_all_likes, list_of(:like) do
       resolve &RethinkdbGraphqlRethinkdb.LikeResolver.all/2
-    end
-
-    @desc "Find User By ID"
-    field :find_user_by_id, type: :user do
-      arg :id, non_null(:id)
-      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByID/2
-    end
-
-    @desc "Find User By Email"
-    field :find_user_by_email, type: :user do
-      arg :email, non_null(:string)
-      resolve &RethinkdbGraphqlRethinkdb.UserResolver.findByEmail/2
     end
   end
 

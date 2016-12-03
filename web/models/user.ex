@@ -7,6 +7,7 @@ defmodule RethinkdbGraphqlRethinkdb.User do
     field :username, :string
     field :email, :string
     field :password, :string
+    field :role, :string
     has_many :posts, RethinkdbGraphqlRethinkdb.Post
     has_many :comments, RethinkdbGraphqlRethinkdb.Comment
     has_many :likes, RethinkdbGraphqlRethinkdb.Like

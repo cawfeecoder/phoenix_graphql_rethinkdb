@@ -1,6 +1,7 @@
 defmodule RethinkdbGraphqlRethinkdb.UserResolver do
   alias RethinkdbGraphqlRethinkdb.Repo
   alias RethinkdbGraphqlRethinkdb.User
+  import Ecto.Query
   import Ecto.Changeset, only: [put_change: 3, get_change: 2]
 
   def all(_args, _info) do
@@ -17,7 +18,18 @@ defmodule RethinkdbGraphqlRethinkdb.UserResolver do
   def findByEmail(%{email: email}, _info) do
     case Repo.get_by(User, email: email) do
       nil -> {:error, "User with email #{email} not found"}
-      user -> {:ok, user} 
+      user -> {:ok, user}
+    end
+  end
+
+  def findByRole(%{role: role}, _info) do
+      {:ok, User |> where([u], u.role == ^role) |> Repo.all}
+  end
+
+  def findByUsername(%{username: username}, _info) do
+    case Repo.get_by(User, username: username) do
+      nil -> {:error, "User with username #{username} not found"}
+      user -> {:ok, user}
     end
   end
 
