@@ -4,7 +4,6 @@ defmodule RethinkdbGraphqlRethinkdb.User do
   schema "users" do
     field :name, :string
     field :email, :string
-    has_many :posts, RethinkdbGraphqlRethinkdb.Post
 
     timestamps()
   end

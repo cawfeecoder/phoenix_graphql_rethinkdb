@@ -19,6 +19,8 @@ defmodule RethinkdbGraphqlRethinkdb.Web do
   def model do
     quote do
       use Ecto.Schema
+      @primary_key {:id, :binary_id, autogenerate: false}
+      @foreign_key_type :binary_id
 
       import Ecto
       import Ecto.Changeset
