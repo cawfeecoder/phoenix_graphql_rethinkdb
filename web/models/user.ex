@@ -5,6 +5,7 @@ defmodule RethinkdbGraphqlRethinkdb.User do
     field :first_name, :string
     field :last_name, :string
     field :username, :string
+    field :join_date, :string
     field :email, :string
     field :password, :string
     field :role, :string

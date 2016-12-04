@@ -7,6 +7,7 @@ use Absinthe.Ecto, repo: RethinkdbGraphqlRethinkdb.Repo
     field :first_name, :string
     field :last_name, :string
     field :username, :string
+    field :join_date, :string
     field :email, :string
     field :role, :string
     field :posts, list_of(:post), resolve: assoc(:posts)
