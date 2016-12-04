@@ -4,7 +4,10 @@ defmodule RethinkdbGraphqlRethinkdb.CommentResolver do
   import Ecto.Query
 
   def all(_args, _info) do
-    {:ok, Repo.all(Comment)}
+    case Repo.all(Comment) do
+      [] -> {:error, "No Comments found. Perhaps the database is empty?"}
+      result -> {:ok, result}
+    end
   end
 
   def findByID(%{id: id}, _info) do
@@ -15,7 +18,10 @@ defmodule RethinkdbGraphqlRethinkdb.CommentResolver do
   end
 
   def findByUserID(%{user_id: user_id}, _info) do
-      {:ok, Comment |> where([c], c.user_id == ^user_id) |> Repo.all}
+    case Comment |> where([c], c.user_id == ^user_id) |> Repo.all do
+      [] -> {:error, "No Comments belonging to User ID '#{user_id}' found"}
+      result -> {:ok, result}
+    end
   end
 
   def findByEmail(%{email: email}, _info) do
@@ -33,11 +39,17 @@ defmodule RethinkdbGraphqlRethinkdb.CommentResolver do
   end
 
   def findByVideoID(%{video_id: video_id}, _info) do
-    {:ok, Comment |> where([c], c.video_id == ^video_id) |> Repo.all}
+    case Comment |> where([c], c.video_id == ^video_id) |> Repo.all do
+      [] -> {:error, "No Comments belonging to Video ID '#{video_id}' found"}
+      result -> {:ok, result}
+    end
   end
 
   def findByPostID(%{post_id: post_id}, _info) do
-    {:ok, Comment |> where([c], c.post_id == ^post_id) |> Repo.all}
+    case Comment |> where([c], c.post_id == ^post_id) |> Repo.all do
+      [] -> {:error, "No Comments belonging to Post ID '#{post_id}' found"}
+      result -> {:ok, result}
+    end
   end
 
 end

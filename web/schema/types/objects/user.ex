@@ -10,6 +10,8 @@ use Absinthe.Ecto, repo: RethinkdbGraphqlRethinkdb.Repo
     field :join_date, :string
     field :email, :string
     field :role, :string
+    field :suspended, :boolean
+    field :suspend_time, :integer
     field :posts, list_of(:post), resolve: assoc(:posts)
     field :comments, list_of(:comment), resolve: assoc(:comments)
     field :videos, list_of(:video), resolve: assoc(:videos)

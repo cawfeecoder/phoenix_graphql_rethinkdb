@@ -4,18 +4,24 @@ defmodule RethinkdbGraphqlRethinkdb.PostResolver do
   import Ecto.Query
 
   def all(_args, _info) do
-    {:ok, Repo.all(Post)}
+    case Repo.all(Post) do
+      [] -> {:error, "No Posts found. Perhaps the database is empty?"}
+      result -> {:ok, result}
+    end
   end
 
   def findByID(%{id: id}, _info) do
     case Repo.get(Post, id) do
       nil -> {:error, "Post with id #{id} not found"}
-      post -> {:ok, post}
+      result -> {:ok, result}
     end
   end
 
   def findByUserID(%{user_id: user_id}, _info) do
-      {:ok, Post |> where([p], p.user_id == ^user_id) |> Repo.all}
+    case Post |> where([p], p.user_id == ^user_id) |> Repo.all do
+      [] -> {:error, "No Posts belonging to User ID '#{user_id}' found"}
+      result -> {:ok, result}
+    end
   end
 
   def findByEmail(%{email: email}, _info) do

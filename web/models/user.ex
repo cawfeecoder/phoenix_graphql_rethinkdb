@@ -9,6 +9,8 @@ defmodule RethinkdbGraphqlRethinkdb.User do
     field :email, :string
     field :password, :string
     field :role, :string
+    field :suspended, :boolean
+    field :suspend_time, :integer
     has_many :posts, RethinkdbGraphqlRethinkdb.Post
     has_many :comments, RethinkdbGraphqlRethinkdb.Comment
     has_many :likes, RethinkdbGraphqlRethinkdb.Like
@@ -22,7 +24,7 @@ defmodule RethinkdbGraphqlRethinkdb.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:first_name, :last_name, :username, :email, :password])
-    |> validate_required([:first_name, :last_name, :username, :email, :password])
+    |> cast(params, [:first_name, :last_name, :username, :email, :password, :role, :suspended, :suspend_time])
+    |> validate_required([:first_name, :last_name, :username, :email, :password, :role, :suspended])
   end
 end

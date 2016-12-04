@@ -196,15 +196,47 @@ defmodule RethinkdbGraphqlRethinkdb.Schema do
   end
 
   mutation do
-    field :delete_user, type: :user do
-      arg :id, non_null(:id)
-      resolve &RethinkdbGraphqlRethinkdb.UserResolver.delete/2
-    end
+
+    #User Related Mutations
+
+    @desc "Create a new User"
     field :create_user, type: :user do
-      arg :name, non_null(:string)
+      arg :first_name, non_null(:string)
+      arg :last_name, non_null(:string)
+      arg :username, non_null(:string)
       arg :email, non_null(:string)
       arg :password, non_null(:string)
       resolve &RethinkdbGraphqlRethinkdb.UserResolver.create/2
+    end
+
+    @desc "Update a single User"
+    field :update_user, type: :user do
+      arg :id, non_null(:id)
+      arg :first_name, :string
+      arg :last_name, :string
+      arg :username, :string
+      arg :email, :string
+      arg :password, :string
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.update_single/2
+    end
+
+    @desc "Suspend a single User"
+    field :suspend_user, type: :user do
+      arg :id, non_null(:id)
+      arg :suspend_time, non_null(:integer)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.suspend_single/2
+    end
+
+    @desc "Unsuspend a single User"
+    field :unsuspend_user, type: :user do
+      arg :id, non_null(:id)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.unsuspend_single/2
+    end
+
+    @desc "Delete a single User"
+    field :delete_user, type: :user do
+      arg :id, non_null(:id)
+      resolve &RethinkdbGraphqlRethinkdb.UserResolver.delete/2
     end
   end
 end

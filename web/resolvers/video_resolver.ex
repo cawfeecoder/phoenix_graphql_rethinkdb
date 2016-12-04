@@ -4,18 +4,24 @@ defmodule RethinkdbGraphqlRethinkdb.VideoResolver do
   import Ecto.Query
 
   def all(_args, _info) do
-    {:ok, Repo.all(Video)}
+    case Repo.all(Video) do
+      [] -> {:error, "No Videos found. Perhaps the database is empty?"}
+      result -> {:ok, result}
+    end
   end
 
   def findByID(%{id: id}, _info) do
     case Repo.get(Video, id) do
       nil -> {:error, "Video with id #{id} not found"}
-      video -> {:ok, video}
+      result -> {:ok, result}
     end
   end
 
   def findByUserID(%{user_id: user_id}, _info) do
-      {:ok, Video |> where([v], v.user_id == ^user_id) |> Repo.all}
+    case Video |> where([v], v.user_id == ^user_id) |> Repo.all do
+      [] -> {:error, "No Videos belonging to User ID '#{user_id}' found"}
+      result -> {:ok, result}
+    end
   end
 
   def findByEmail(%{email: email}, _info) do
